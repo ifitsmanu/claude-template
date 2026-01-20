@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "_readme": {
+    "description": "Team-shared MCP configuration (recommended by Boris)",
+    "free_servers": "sequential-thinking, context7, playwright - No API keys required",
+    "freemium_servers": "exa, jina - Free tier available, optional API keys for extended usage",
+    "setup": "Set EXA_API_KEY and JINA_API_KEY environment variables if you have API keys"
+  },
+  "mcpServers": {
+    "sequential-thinking": {
+      "_comment": "Deep reasoning - Helps break down complex problems step-by-step",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    },
+    "context7": {
+      "_comment": "Library docs - Fetches up-to-date documentation for popular libraries",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ]
+    },
+    "playwright": {
+      "_comment": "Browser testing - Browser automation, screenshots, and E2E testing",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ]
+    },
+    "exa": {
+      "_comment": "AI search - Semantic web search with AI understanding (freemium)",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@anthropics/exa-mcp-server"
+      ],
+      "env": {
+        "EXA_API_KEY": "${EXA_API_KEY}"
+      }
+    },
+    "jina": {
+      "_comment": "Web reader - Reads URLs, extracts content, converts to markdown (freemium)",
+      "command": "npx",
+      "args": [
+        "-y",
+        "jina-mcp"
+      ],
+      "env": {
+        "JINA_API_KEY": "${JINA_API_KEY}"
+      }
+    }
+  }
+}

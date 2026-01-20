@@ -1,0 +1,90 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit",
+      "Write",
+      "NotebookEdit",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(bun:*)",
+      "Bash(bunx:*)",
+      "Bash(yarn:*)",
+      "Bash(pnpm:*)",
+      "Bash(uv:*)",
+      "Bash(pip:*)",
+      "Bash(python:*)",
+      "Bash(pytest:*)",
+      "Bash(ruff:*)",
+      "Bash(cargo:*)",
+      "Bash(go:*)",
+      "Bash(make:*)",
+      "Bash(docker:*)",
+      "Bash(docker-compose:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git checkout:*)",
+      "Bash(git switch:*)",
+      "Bash(git stash:*)",
+      "Bash(git merge:*)",
+      "Bash(git rebase:*)",
+      "Bash(git pull:*)",
+      "Bash(git push)",
+      "Bash(git worktree:*)",
+      "Bash(alembic:*)",
+      "Bash(prisma:*)",
+      "Bash(drizzle:*)",
+      "Bash(mgrep:*)",
+      "Bash(curl:*)",
+      "mcp__*",
+      "Skill(mgrep)",
+      "Skill(mgrep:*)",
+      "WebSearch",
+      "WebFetch",
+      "mcp__acp__Bash",
+      "Skill(think)",
+      "Skill(think:*)"
+    ]
+  },
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "_comment": "Deep reasoning for complex problems"
+    },
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp",
+      "_comment": "Real-time library documentation"
+    },
+    "exa": {
+      "type": "http",
+      "url": "https://mcp.exa.ai/mcp",
+      "_comment": "AI-powered search + code context"
+    },
+    "jina": {
+      "type": "http",
+      "url": "https://mcp.jina.ai/v1",
+      "_comment": "Web reader + SERP results"
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@anthropic/mcp-server-playwright"
+      ],
+      "_comment": "Browser automation for testing"
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "."
+      ],
+      "_comment": "Local file operations"
+    }
+  }
+}

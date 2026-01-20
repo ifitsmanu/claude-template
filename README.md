@@ -1,5 +1,7 @@
 # Claude Code Template
 
+[![CI](https://github.com/ifitsmanu/claude-template/actions/workflows/ci.yml/badge.svg)](https://github.com/ifitsmanu/claude-template/actions/workflows/ci.yml)
+
 The best way to set up Claude Code for any project. Based on how Boris Cherny (creator of Claude Code) actually uses it.
 
 ## What This Is
@@ -28,7 +30,7 @@ rm -rf .git && git init  # Start fresh
 # Copy the essentials
 cp -r /path/to/claude-template/.claude your-project/
 cp /path/to/claude-template/CLAUDE.md your-project/
-cp /path/to/claude-template/agent_docs your-project/
+cp -r /path/to/claude-template/agent_docs your-project/
 ```
 
 ## After Copying
@@ -82,7 +84,19 @@ These extend Claude's capabilities. All free, all pre-configured:
 | **playwright** | Controls a browser for testing and screenshots |
 | **filesystem** | File operations (already built into Claude, but more control) |
 
-MCP config is in `.claude/settings.local.json`. This file is gitignored because it's personal config.
+### MCP Configuration Files
+
+This template includes two MCP config approaches:
+
+| File | Purpose | When to use |
+|------|---------|-------------|
+| `.mcp.json` | Team-shared config | Commit to git. Everyone gets same MCP servers. |
+| `.claude/settings.local.json` | Personal config | Gitignored. Your API keys, extra permissions. |
+
+Copy the example to get started:
+```bash
+cp .claude/settings.local.json.example .claude/settings.local.json
+```
 
 ### Hooks
 
@@ -93,13 +107,7 @@ Automatic actions that run when Claude does things:
 
 ## Setting Up MCP Servers
 
-The template includes a `.claude/settings.local.json.example` file. Copy it:
-
-```bash
-cp .claude/settings.local.json.example .claude/settings.local.json
-```
-
-That's it. The MCP servers will work. For extended features on some servers, add API keys:
+The MCP servers work out of the box. For extended features, add API keys:
 
 ```bash
 # Optional - add to your shell profile
@@ -176,10 +184,11 @@ Repeat. Boris ships 100+ PRs per week this way.
 - [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) - Community resources
 - [MCP Registry](https://github.com/modelcontextprotocol/servers)
 - [PLUGINS.md](PLUGINS.md) - Full MCP installation guide
+- [CHANGELOG.md](CHANGELOG.md) - Version history
 
 ## Contributing
 
-Found something useful? Add it. PRs welcome.
+Found something useful? Add it. PRs welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 

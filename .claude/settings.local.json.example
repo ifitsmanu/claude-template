@@ -30,28 +30,13 @@
       "Bash(git pull:*)",
       "Bash(git push)",
       "Bash(git worktree:*)",
-      "Bash(alembic:*)",
-      "Bash(prisma:*)",
-      "Bash(drizzle:*)",
-      "Bash(mgrep:*)",
-      "Bash(curl:*)",
-      "mcp__*",
-      "Skill(mgrep)",
-      "Skill(mgrep:*)",
-      "WebSearch",
-      "WebFetch",
-      "mcp__acp__Bash",
-      "Skill(think)",
-      "Skill(think:*)"
+      "mcp__*"
     ]
   },
   "mcpServers": {
     "sequential-thinking": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-sequential-thinking"
-      ],
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
       "_comment": "Deep reasoning for complex problems"
     },
     "context7": {
@@ -71,19 +56,12 @@
     },
     "playwright": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@anthropic/mcp-server-playwright"
-      ],
+      "args": ["-y", "@anthropic/mcp-server-playwright"],
       "_comment": "Browser automation for testing"
     },
     "filesystem": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "."
-      ],
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "."],
       "_comment": "Local file operations"
     }
   }

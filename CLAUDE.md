@@ -8,8 +8,8 @@
 
 ## Structure
 src/              # Source code
-tests/            # Test files  
-docs/             # Documentation (load with @docs/file.md)
+tests/            # Test files
+agent_docs/       # Documentation (load with @agent_docs/file.md)
 scripts/          # Build/deploy scripts
 
 ## Commands
@@ -31,13 +31,12 @@ build:  [npm run build / uv build]
 - Never add deps without approval
 
 ## On-Demand Context
-@docs/architecture.md  # System design
-@docs/api.md           # API reference
-@docs/patterns.md      # Code patterns
+@agent_docs/architecture.md  # System design
+@agent_docs/api.md           # API reference
+@agent_docs/patterns.md      # Code patterns
 
 ## Multi-Agent Patterns
 - Use Task tool with parallel agents for large searches
 - Use subagents for isolated tasks (review, explore, test)
 - Chain agents: Plan -> Implement -> Test -> Review
 - Each agent gets own context window - use for large codebases
-- Use agent orchestration for complex workflows

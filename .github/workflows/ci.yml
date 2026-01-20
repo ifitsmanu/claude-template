@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate JSON files
+        run: |
+          echo "Validating JSON syntax..."
+          for file in $(find . -name "*.json" -not -path "./.git/*"); do
+            echo "Checking $file"
+            python3 -c "import json; json.load(open('$file'))" || exit 1
+          done
+          echo "All JSON files valid"
+
+      - name: Validate YAML files
+        run: |
+          echo "Validating YAML syntax..."
+          pip install pyyaml
+          for file in $(find . -name "*.yml" -o -name "*.yaml" | grep -v ".git"); do
+            echo "Checking $file"
+            python3 -c "import yaml; yaml.safe_load(open('$file'))" || exit 1
+          done
+          echo "All YAML files valid"
+
+      - name: Check for secrets
+        run: |
+          echo "Scanning for potential secrets..."
+          if grep -rE "(password|secret|api_key|apikey|token)\s*[:=]\s*['\"][^'\"]+['\"]" \
+             --include="*.json" --include="*.yml" --include="*.yaml" \
+             --exclude-dir=.git . 2>/dev/null | grep -v "your-key" | grep -v "example" | grep -v "GITHUB_TOKEN"; then
+            echo "Warning: Potential secrets found"
+            exit 1
+          fi
+          echo "No secrets detected"
+
+      - name: Validate shell scripts
+        run: |
+          echo "Checking shell scripts..."
+          for script in $(find .claude/hooks -name "*.sh" 2>/dev/null); do
+            if [ -f "$script" ]; then
+              echo "Validating $script"
+              bash -n "$script" || exit 1
+            fi
+          done
+          echo "All shell scripts valid"
+
+  markdown-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lint Markdown
+        uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          globs: "**/*.md"
+          config: ".markdownlint.json"
+        continue-on-error: true

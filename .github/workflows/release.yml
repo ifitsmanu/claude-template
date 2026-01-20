@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
+          body: |
+            ## What's in this release
+
+            Claude Code template with:
+            - 14 slash commands
+            - 5 custom agents
+            - 6 MCP servers pre-configured
+            - Auto-formatting hooks
+            - Token-optimized workflows
+
+            ## Quick Start
+
+            1. Click "Use this template" on the repo page
+            2. Clone your new repo
+            3. Run `claude` and ask it to configure CLAUDE.md
+
+            See [README](https://github.com/ifitsmanu/claude-template#readme) for full docs.

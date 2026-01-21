@@ -6,12 +6,20 @@
 CLAUDE.local.md
 .claude/mcp-logs/
 
-# Claude-mem auto-generated files
+# Claude-mem auto-generated files (aggressive patterns)
 .claude/CLAUDE.md
-.claude/*/CLAUDE.md
+.claude/**/CLAUDE.md
+.claude/agents/**/CLAUDE.md
+.claude/commands/**/CLAUDE.md
+.claude/hooks/CLAUDE.md
+.claude/memory/CLAUDE.md
+.claude/prd/CLAUDE.md
 agent_docs/CLAUDE.md
 docs/CLAUDE.md
+src/**/CLAUDE.md
 website/src/components/CLAUDE.md
+**/CLAUDE.md
+!CLAUDE.md
 
 # ===========================================
 # Secrets and sensitive files

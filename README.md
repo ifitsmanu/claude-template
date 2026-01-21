@@ -3,9 +3,20 @@
 [![CI](https://github.com/ifitsmanu/claude-template/actions/workflows/ci.yml/badge.svg)](https://github.com/ifitsmanu/claude-template/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Production-ready Claude Code template synthesizing best practices from [claude-mem](https://github.com/thedotmack/claude-mem), [compound-engineering](https://github.com/EveryInc/compound-engineering-plugin), [ralph](https://github.com/snarktank/ralph), and [sequential-thinking](https://github.com/modelcontextprotocol/servers).
+Production-ready Claude Code template synthesizing best practices from [claude-mem](https://github.com/thedotmack/claude-mem), [compound-engineering](https://github.com/EveryInc/compound-engineering-plugin), [ralph](https://github.com/snarktank/ralph), [sequential-thinking](https://github.com/modelcontextprotocol/servers), and [everything-claude-code](https://github.com/affaan-m/everything-claude-code).
 
 **Philosophy: Complexity is opt-in, not default.**
+
+## ⚡ Latest Enhancements (2026-01-21)
+
+Adopted 15+ battle-tested patterns from [everything-claude-code](https://github.com/affaan-m/everything-claude-code):
+- 🎯 **Rules System** - Enforceable quality gates (80% coverage, OWASP Top 10, code standards)
+- 🪝 **Advanced Hooks** - 9 hooks across all 5 lifecycle events (prevent errors before they happen)
+- ⚠️ **Context Window Mgmt** - Critical warnings about MCP overhead (200k → 70k with 20+ servers)
+- 🎓 **Skills System** - Reusable workflows (TDD guide with RED→GREEN→IMPROVE cycle)
+- 🧪 **Enhanced Testing** - E2E specialist agent, mandatory coverage, TDD enforcement
+
+See [IMPROVEMENTS.md](IMPROVEMENTS.md) for complete details.
 
 ## Quick Start
 
@@ -46,14 +57,14 @@ Then run `claude` and start working:
 
 See [COMMANDS.md](COMMANDS.md) for complete reference.
 
-### 12 Agents (Core + Specialists)
+### 13 Agents (Core + Specialists)
 
 | Core Agents | Model | Responsibility |
 |-------------|-------|----------------|
 | builder | haiku | Implement code |
 | reviewer | sonnet | Judge quality |
 | debugger | haiku | Find bugs |
-| tester | haiku | Write tests |
+| tester | haiku | Write tests (80% coverage required) |
 | architect | sonnet | Design systems |
 
 | Specialist Agents | Model | Triggers |
@@ -65,6 +76,7 @@ See [COMMANDS.md](COMMANDS.md) for complete reference.
 | backend | haiku | APIs, services |
 | ai-engineer | sonnet | LLM, RAG, embeddings |
 | designer | sonnet | UX, design system |
+| e2e-runner | haiku | Playwright E2E tests (NEW) |
 
 ### 6 MCP Servers (All Free)
 
@@ -142,18 +154,18 @@ Implements all stories until complete. Fresh context each iteration.
 
 ```
 .claude/
+├── rules/ (NEW)        # testing.md, security.md, quality.md, agent-delegation.md
+├── skills/ (NEW)       # tdd-guide.md (RED→GREEN→IMPROVE workflow)
 ├── agents/
 │   ├── core/           # builder, reviewer, debugger, tester, architect
-│   └── specialists/    # security, performance, database, frontend, backend, ai-engineer, designer
+│   └── specialists/    # security, performance, database, frontend, backend, ai-engineer, designer, e2e-runner
 ├── commands/
 │   ├── quick/          # fix, commit, ship
-│   ├── shallow/        # review, refactor
-│   ├── deep/           # think, plan, debug
-│   ├── parallel/       # build, parallel
-│   └── workflow/       # sprint, memory
+│   ├── deep/           # analyze, plan, debug, refactor
+│   └── parallel/       # implement, research
 ├── memory/             # patterns.md, decisions.md, learnings.md
 ├── prd/                # Sprint PRD templates
-├── hooks/              # pre-commit.sh, post-save.sh
+├── hooks/              # 9 hooks across 5 lifecycle events
 ├── settings.json       # Safe defaults (commit this)
 └── settings.local.json # Dev permissions (gitignored)
 ```
@@ -185,15 +197,25 @@ export DATABASE_URL=postgres://... # Database access
 ## Quality Gates
 
 ### Pre-Commit (Automatic)
-- ✓ Lint passes
-- ✓ Tests pass
+- ✓ Tests pass (**80% coverage required**)
+- ✓ Lint passes (zero warnings)
 - ✓ Type check passes
-- ✓ No secrets detected
+- ✓ No secrets detected (OWASP checks)
+- ✓ No console.log in JS/TS files
 
-### Agent Status
-- `SUCCESS` - Task completed
+### Agent Status (Standardized)
+All agents report: `SUCCESS | BLOCKED | FAILED`
+- `SUCCESS` - Task completed fully
 - `BLOCKED` - Needs human decision
-- `FAILED` - Couldn't complete
+- `FAILED` - Cannot complete, explains why
+
+### Quality Rules (NEW)
+- 📋 Testing: 80% coverage, TDD workflow, 3 test types required
+- 🔒 Security: OWASP Top 10 compliance, secrets scanning
+- 📝 Code Quality: Functions <50 lines, nesting <3 levels
+- 🤝 Agent Delegation: Clear rules on when to use which agent
+
+See `.claude/rules/` for complete standards.
 
 ## Customization
 
@@ -255,11 +277,14 @@ This template synthesizes:
 - **[compound-engineering](https://github.com/EveryInc/compound-engineering-plugin)** → Parallel agents, specialized reviewers
 - **[ralph](https://github.com/snarktank/ralph)** → File-based state, iteration loops, AGENTS.md learning
 - **[sequential-thinking](https://github.com/modelcontextprotocol/servers)** → Deep analysis for hard problems
+- **[everything-claude-code](https://github.com/affaan-m/everything-claude-code)** → Rules system, advanced hooks, skills, context management (10+ months production-tested)
 
 ## Links
 
-- [CLAUDE.md](CLAUDE.md) - Full command reference
-- [PLUGINS.md](PLUGINS.md) - MCP installation guide
+- [IMPROVEMENTS.md](IMPROVEMENTS.md) - Latest enhancements (2026-01-21)
+- [CLAUDE.md](CLAUDE.md) - Project instructions and context window warnings
+- [COMMANDS.md](COMMANDS.md) - Complete command reference
+- [PLUGINS.md](PLUGINS.md) - MCP installation guide with overhead warnings
 - [CONTRIBUTING.md](CONTRIBUTING.md) - How to contribute
 - [Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code) - Official docs
 

@@ -37,12 +37,36 @@ Permanent record of conventions and patterns in this codebase. Update when new p
 
 ## Testing Patterns
 
-<!-- Add testing patterns here -->
-<!-- Example: -->
-<!-- - Unit tests in __tests__ folders next to source -->
-<!-- - Integration tests in tests/integration/ -->
-<!-- - Use factories for test data -->
-<!-- - Mock external services, not internal modules -->
+### Coverage Requirements
+- Minimum 80% test coverage (statements, branches, functions, lines)
+- All three test types required: Unit, Integration, E2E
+
+### TDD Workflow
+- Follow RED → GREEN → IMPROVE → VERIFY cycle
+- Write failing test first (RED)
+- Implement minimal code to pass (GREEN)
+- Refactor for quality (IMPROVE)
+- Verify 80% coverage (VERIFY)
+- Consult tdd-guide skill for new features
+
+### Test Organization
+- Unit tests: `tests/unit/` or `__tests__/` (isolated, mocked dependencies)
+- Integration tests: `tests/integration/` (real dependencies, test DB)
+- E2E tests: `tests/e2e/` (Playwright, critical user journeys only)
+
+### Test Quality
+- Test behavior, not implementation
+- Use descriptive names: `should_X_when_Y`
+- One assertion concept per test
+- Arrange-Act-Assert structure
+- Tests must be deterministic (no flaky tests)
+
+### E2E Best Practices
+- Use data-testid attributes for stability
+- Focus on critical user journeys
+- Keep tests <30 seconds each
+- Screenshot failures automatically
+- Test in all 3 browsers for critical paths
 
 ---
 

@@ -40,3 +40,43 @@ build:  [npm run build / uv build]
 - Use subagents for isolated tasks (review, explore, test)
 - Chain agents: Plan -> Implement -> Test -> Review
 - Each agent gets own context window - use for large codebases
+
+## Context Window Management ⚠️
+
+**Critical:** Your 200k context budget shrinks with excessive tool loading.
+
+### MCP Server Limits
+- **Configure:** 20-30 MCPs total maximum
+- **Enable:** <10 per project actively
+- **Active Tools:** Keep under 80 tools
+- **Without limits:** Context drops from 200k → 70k tokens
+
+### Managing Overhead
+```json
+// In .mcp.json, disable unused servers:
+"disabledMcpServers": [
+  "playwright",  // Only enable for browser testing
+  "exa"          // Only enable for research tasks
+]
+```
+
+### Best Practices
+1. Enable MCPs only when needed for current task
+2. Disable after use to reclaim context
+3. Monitor context usage in status bar
+4. Use fewer, more powerful tools vs many specialized ones
+
+## Quality Gates
+
+### Pre-Commit (Automatic)
+- ✓ Tests pass (80% coverage required)
+- ✓ Linter passes (zero warnings)
+- ✓ Type check passes
+- ✓ No secrets detected
+- ✓ No console.log in JS/TS files
+
+### Agent Standards
+All agents report: `SUCCESS | BLOCKED | FAILED`
+- **SUCCESS**: Task completed fully
+- **BLOCKED**: Needs human decision
+- **FAILED**: Cannot complete, explains why

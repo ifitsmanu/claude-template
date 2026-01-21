@@ -225,24 +225,120 @@ Research-focused with documentation access.
 
 ---
 
-## Token Budget Reference
+## ⚠️ Context Window Management
 
-| Server | Approx Overhead |
-|--------|-----------------|
-| sequential-thinking | ~500 tokens |
-| context7 | ~300 tokens |
-| playwright | ~800 tokens |
-| memory | ~400 tokens |
-| exa | ~400 tokens |
-| jina | ~350 tokens |
-| github | ~600 tokens |
-| postgres | ~500 tokens |
+### Critical: MCP Overhead Impact
+
+**Your 200k context budget shrinks dramatically with excessive tool loading.**
+
+| MCPs Enabled | Active Tools | Context Available | % Lost |
+|--------------|--------------|-------------------|--------|
+| 0-5 servers | <40 tools | ~190k tokens | 5% |
+| 6-10 servers | 40-80 tools | ~150k tokens | 25% |
+| 11-20 servers | 80-150 tools | ~100k tokens | 50% |
+| 20+ servers | >150 tools | ~70k tokens | 65% |
+
+**Recommended Limits:**
+- **Configure:** 20-30 MCPs total maximum
+- **Enable:** <10 per project actively
+- **Active Tools:** Keep under 80 tools
+- **Best Practice:** Enable only what you need right now
+
+### Token Budget Per Server
+
+| Server | Approx Overhead | Recommended Usage |
+|--------|-----------------|-------------------|
+| sequential-thinking | ~500 tokens | Always (essential) |
+| context7 | ~300 tokens | Always (essential) |
+| playwright | ~800 tokens | Enable for UI work only |
+| memory | ~400 tokens | Always (essential) |
+| exa | ~400 tokens | Enable for research only |
+| jina | ~350 tokens | Enable for research only |
+| github | ~600 tokens | Enable for PR/issue work |
+| postgres | ~500 tokens | Enable for DB work |
+| compound-eng (plugin) | ~2000 tokens | High overhead, powerful |
+
+### Managing Context Budget
+
+**1. Disable Unused Servers**
+```json
+// In .mcp.json
+"disabledMcpServers": [
+  "playwright",  // Only enable for browser testing
+  "exa",         // Only enable for research tasks
+  "jina",        // Only enable for web reading
+  "github",      // Only enable for PR/issue work
+  "postgres"     // Only enable for DB work
+]
+```
+
+**2. Project-Specific Configs**
+```bash
+# Web app project - enable UI tools
+cp .mcp-web.json .mcp.json
+
+# Backend project - enable DB tools  
+cp .mcp-backend.json .mcp.json
+
+# Research project - enable search tools
+cp .mcp-research.json .mcp.json
+```
+
+**3. Runtime Management**
+```bash
+# Check enabled servers
+/mcp
+
+# Disable server temporarily
+/mcp disable playwright
+
+# Re-enable when needed
+/mcp enable playwright
+
+# Compact context when getting full
+/compact
+```
+
+**4. Monitor Context Usage**
+- Check status bar for context consumption
+- Warning at 80% (160k tokens used)
+- Critical at 90% (180k tokens used)
+- Use `/compact` before hitting limits
+
+### Best Practices
+
+**✓ DO:**
+- Start with 4 essential servers (sequential-thinking, context7, playwright, memory)
+- Enable additional servers only when task requires them
+- Disable after use to reclaim context
+- Use project-specific MCP configs
+- Monitor context usage in status bar
+- Compact context regularly
+
+**✗ DON'T:**
+- Enable all MCPs "just in case"
+- Leave research tools enabled during coding
+- Ignore context warnings
+- Add servers without measuring impact
+- Use heavy plugins for simple tasks
+
+### Troubleshooting Context Issues
+
+**Symptom:** Responses getting cut off
+**Solution:** `/compact` or disable unused MCPs
+
+**Symptom:** Slow startup (>5 seconds)
+**Solution:** Reduce active MCP count to <10
+
+**Symptom:** "Context limit exceeded" errors
+**Solution:** Disable non-essential MCPs immediately
 
 **Tips:**
 - Disable unused MCPs with `/mcp` command
 - Each server adds to system prompt overhead
 - Use `/compact` to summarize context
 - Use `/clear` between unrelated tasks
+- Fewer, powerful tools > many specialized tools
 
 ---
 

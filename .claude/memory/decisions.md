@@ -125,3 +125,51 @@ Accepted
 5. Existing `/memory` command uses file-based storage in `.claude/memory/`
 
 ---
+
+## 2026-01-21 - Implement Rules-Based Quality Gates
+
+### Context
+Needed explicit, enforceable standards for testing, security, and code quality. Inspired by everything-claude-code repository's battle-tested approach with 10+ months of production use.
+
+### Decision
+Create `.claude/rules/` directory with four rule files: testing.md, security.md, quality.md, and agent-delegation.md.
+
+### Options Considered
+1. **Dedicated rules directory** - Clear separation, always enforced, explicit standards
+2. **Embed in CLAUDE.md** - Gets too large, harder to enforce specific rules
+3. **Agent prompts only** - Inconsistent enforcement, harder to audit
+
+### Rationale
+Rules are NON-NEGOTIABLE guidelines vs optional best practices. Separate files allow focused enforcement and easy reference. Proven pattern from production-tested templates.
+
+### Consequences
+- ✅ 80% test coverage is now mandatory, not advisory
+- ✅ OWASP Top 10 checks are explicit and enforced
+- ✅ Clear agent delegation prevents overlap
+- ⚠️ More rigid workflow (intentional tradeoff)
+
+### Status
+Accepted
+
+---
+
+## 2026-01-21 - Add Context Window Management Documentation
+
+### Context
+200k context budget shrinks to 70k with 20+ MCPs enabled. Critical issue not documented anywhere. everything-claude-code discovered this through painful experience.
+
+### Decision
+Add prominent warnings in CLAUDE.md and PLUGINS.md with specific limits (< 10 servers, <80 tools) and management strategies.
+
+### Rationale
+Context degradation is silent but severe. Users need to know limits BEFORE hitting them.
+
+### Consequences
+- ✅ Users understand MCP overhead
+- ✅ Clear guidelines prevent context exhaustion
+- ⚠️ Requires discipline to disable unused MCPs
+
+### Status
+Accepted
+
+---

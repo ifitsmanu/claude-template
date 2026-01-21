@@ -91,6 +91,17 @@
     ]
   },
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash(npm run dev|pnpm dev|yarn dev|bun run dev|python manage.py runserver|uvicorn:*|flask run)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/check-tmux.sh"
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Edit|Write",
@@ -98,6 +109,48 @@
           {
             "type": "command",
             "command": ".claude/hooks/post-save.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit(**/*.ts|**/*.tsx|**/*.js|**/*.jsx)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/check-console-log.sh $FILE"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/save-state.sh"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/load-state.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/save-state.sh"
           }
         ]
       }
@@ -124,7 +177,8 @@
       ".claude/agents/specialists/frontend.yml",
       ".claude/agents/specialists/backend.yml",
       ".claude/agents/specialists/ai-engineer.yml",
-      ".claude/agents/specialists/designer.yml"
+      ".claude/agents/specialists/designer.yml",
+      ".claude/agents/specialists/e2e-runner.yml"
     ]
   },
   "memory": {

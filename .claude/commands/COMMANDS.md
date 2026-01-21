@@ -2,6 +2,17 @@
 
 One file to rule them all. Fast reference for every command in the system.
 
+## ⚡ Enhanced with New Standards (2026-01-21)
+
+All commands now enforce:
+- 📋 **80% test coverage** (testing.md rule)
+- 🔒 **OWASP Top 10 compliance** (security.md rule)  
+- 📝 **Code quality standards** (quality.md rule)
+- 🤝 **Agent delegation rules** (agent-delegation.md rule)
+- 🎓 **TDD workflow** for new features (tdd-guide skill)
+
+See `.claude/rules/` for complete standards.
+
 ## Quick Reference Table
 
 | Command | Type | Time | Purpose |
@@ -40,11 +51,18 @@ One file to rule them all. Fast reference for every command in the system.
 5. Commit with conventional message
 
 **Quality Gates (MUST PASS):**
-- ✓ Linting passes
-- ✓ Tests pass
-- ✓ No secrets detected
+- ✓ Tests pass with **80% coverage**
+- ✓ Linting passes (zero warnings)
+- ✓ Type check passes
+- ✓ No secrets detected (OWASP checks)
+- ✓ No console.log in JS/TS files
 
-**Blocks if:** Tests fail, lint fails, secrets detected
+**Blocks if:** Any quality gate fails
+
+**Rules Enforced:**
+- testing.md (80% coverage requirement)
+- security.md (secrets detection)
+- quality.md (lint standards)
 
 ---
 

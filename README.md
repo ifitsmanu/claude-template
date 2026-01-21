@@ -30,15 +30,21 @@ Then run `claude` and start working:
 
 ## What You Get
 
-### 10 Commands (5 Tiers)
+### 5 Core Commands + 40 Plugin Commands
 
-| Tier | Commands | Use Case |
-|------|----------|----------|
-| **Quick** | `/fix`, `/commit`, `/ship` | Zero overhead, just do it |
-| **Shallow** | `/review`, `/refactor` | Light analysis |
-| **Deep** | `/think`, `/plan`, `/debug` | Sequential thinking (32k tokens) |
-| **Parallel** | `/build`, `/parallel` | Multi-agent implementation |
-| **Workflow** | `/sprint`, `/memory` | Long-running, persistent |
+**Template Commands (Use Daily):**
+- `/fix` - Quick bug fixes
+- `/commit` - Safe commits with quality gates
+- `/ship` - Full release (commit + push + PR)
+- `/memory` - Manual knowledge capture
+- `/sprint` - PRD-based autonomous iteration
+
+**Plugin Commands:**
+- 23 from compound-engineering (/plan, /think, /review, /work, /lfg, etc.)
+- 14 auto-activating skills (frontend-design, dhh-rails-style, etc.)
+- 3 from ralph-wiggum (/ralph-loop for continuous work)
+
+See [COMMANDS.md](COMMANDS.md) for complete reference.
 
 ### 12 Agents (Core + Specialists)
 

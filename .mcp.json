@@ -1,14 +1,24 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "_readme": {
-    "description": "Team-shared MCP configuration (recommended by Boris)",
-    "free_servers": "sequential-thinking, context7, playwright - No API keys required",
-    "freemium_servers": "exa, jina - Free tier available, optional API keys for extended usage",
-    "setup": "Set EXA_API_KEY and JINA_API_KEY environment variables if you have API keys"
+    "description": "Team-shared MCP server configuration. Commit this file to share servers across team.",
+    "architecture": "Unified template with tiered MCP servers for different use cases.",
+    "tiers": {
+      "essential": "sequential-thinking, context7 - Core reasoning and documentation",
+      "browser": "playwright - Testing and verification",
+      "search": "exa, jina - Web search and reading",
+      "persistence": "memory - Knowledge graph (optional)",
+      "development": "filesystem, github, postgres - Dev tooling (configure in settings.local.json)"
+    },
+    "api_keys": {
+      "required": "None - all essential servers work without keys",
+      "optional": "EXA_API_KEY, JINA_API_KEY, GITHUB_TOKEN, DATABASE_URL"
+    }
   },
   "mcpServers": {
     "sequential-thinking": {
-      "_comment": "Deep reasoning - Helps break down complex problems step-by-step",
+      "_comment": "ESSENTIAL: Deep reasoning for /think, /plan, /debug commands",
+      "_usage": "Complex problem decomposition, architectural decisions, root cause analysis",
       "command": "npx",
       "args": [
         "-y",
@@ -16,7 +26,8 @@
       ]
     },
     "context7": {
-      "_comment": "Library docs - Fetches up-to-date documentation for popular libraries",
+      "_comment": "ESSENTIAL: Real-time library documentation lookup",
+      "_usage": "Framework docs, API references, code examples",
       "command": "npx",
       "args": [
         "-y",
@@ -24,26 +35,38 @@
       ]
     },
     "playwright": {
-      "_comment": "Browser testing - Browser automation, screenshots, and E2E testing",
+      "_comment": "BROWSER: Automation for testing and UI verification",
+      "_usage": "E2E tests, screenshots, form filling, browser testing",
       "command": "npx",
       "args": [
         "-y",
         "@playwright/mcp@latest"
       ]
     },
-    "exa": {
-      "_comment": "AI search - Semantic web search with AI understanding (freemium)",
+    "memory": {
+      "_comment": "PERSISTENCE: Knowledge graph for cross-session memory",
+      "_usage": "Entities, relations, facts that persist across sessions",
       "command": "npx",
       "args": [
         "-y",
-        "@anthropics/exa-mcp-server"
+        "@modelcontextprotocol/server-memory"
+      ]
+    },
+    "exa": {
+      "_comment": "SEARCH: AI-powered semantic web search (freemium - works without key)",
+      "_usage": "Research, finding code examples, technical documentation",
+      "command": "npx",
+      "args": [
+        "-y",
+        "exa-mcp-server"
       ],
       "env": {
         "EXA_API_KEY": "${EXA_API_KEY}"
       }
     },
     "jina": {
-      "_comment": "Web reader - Reads URLs, extracts content, converts to markdown (freemium)",
+      "_comment": "SEARCH: Web content reader and SERP results (freemium)",
+      "_usage": "Reading URLs, extracting content, web scraping",
       "command": "npx",
       "args": [
         "-y",
@@ -53,5 +76,18 @@
         "JINA_API_KEY": "${JINA_API_KEY}"
       }
     }
+  },
+  "_installation": {
+    "step1": "Ensure Node.js 18+ is installed",
+    "step2": "Copy this file to your project root as .mcp.json",
+    "step3": "Restart Claude Code to load MCP servers",
+    "step4": "Optional: Set API keys in environment for enhanced search"
+  },
+  "_commands_using_mcp": {
+    "/think": "Uses sequential-thinking for deep analysis",
+    "/plan": "Uses sequential-thinking + context7 for architecture",
+    "/debug": "Uses sequential-thinking for hypothesis testing",
+    "/research": "Uses exa, jina, context7 for comprehensive research",
+    "/browser": "Uses playwright for browser automation"
   }
 }

@@ -1,0 +1,41 @@
+# Sprint Progress Log
+
+This file tracks progress across sprint iterations. Append-only during sprints.
+
+---
+
+## Codebase Patterns
+
+<!-- Patterns discovered during this sprint that should inform future iterations -->
+<!-- Move valuable patterns to memory/patterns.md after sprint completion -->
+
+---
+
+## Iteration Log
+
+<!-- Each iteration appends below this line -->
+<!-- Format:
+## Iteration N - [timestamp]
+
+### Story
+- ID: US-XXX
+- Title: [title]
+
+### Implementation
+[What was done]
+
+### Changes
+- [file] - [change description]
+
+### Quality Gates
+- Tests: PASS/FAIL
+- Lint: PASS/FAIL
+- Typecheck: PASS/FAIL
+
+### Status: SUCCESS | FAILED | BLOCKED
+
+### Learnings
+[Insights for future iterations]
+
+---
+-->

@@ -1,176 +1,281 @@
 # Plugin & MCP Installation Guide
 
-## TIER 1: Essential (Install First)
+Complete guide to MCP servers and plugins for the unified Claude Code template.
 
-### 1. mgrep - Semantic Search (Replaces grep/glob)
-Natural language code search. 2x fewer tokens than grep workflows.
-```bash
-mgrep install-claude-code claude
-```
+## Quick Setup
 
-**Usage:**
-```bash
-mgrep "Where is auth middleware?"       # Semantic local search
-mgrep --web --answer "How to use X"     # Include web results
-mgrep -m 10 "query"                     # Limit results
-```
+The template includes `.mcp.json` with essential servers pre-configured. Just run `claude` and they'll be available.
+
+For additional servers or API key configuration, add to `.claude/settings.local.json`.
 
 ---
 
-## TIER 2: Web Search & Research MCP Servers
+## TIER 1: Essential (Pre-Configured)
 
-### Sequential Thinking - Deep Reasoning (MUST HAVE)
+These servers are included in `.mcp.json` and work without API keys.
+
+### Sequential Thinking - Deep Reasoning
 ```bash
+# Already in .mcp.json, or add manually:
 claude mcp add sequential-thinking -s user -- npx -y @modelcontextprotocol/server-sequential-thinking
 ```
-Use for: Complex architectural decisions, debugging, planning
+**Used by:** `/think`, `/plan`, `/debug`
+**Purpose:** Step-by-step reasoning, branching logic, hypothesis testing
 
 ### Context7 - Real-Time Library Documentation
 ```bash
-claude mcp add context7 -s user --transport http https://mcp.context7.com/mcp
+# Already in .mcp.json, or add manually:
+claude mcp add context7 -s user -- npx -y @upstash/context7-mcp@latest
 ```
-Use for: Up-to-date API docs, library references
+**Used by:** `/plan`, research tasks
+**Purpose:** Up-to-date API docs for 100+ frameworks
 
-### Exa - AI-Powered Search + Code Context (FREE)
+### Playwright - Browser Automation
 ```bash
-# HTTP transport (no API key needed for basic use)
-claude mcp add exa -s user --transport http https://mcp.exa.ai/mcp
+# Already in .mcp.json, or add manually:
+claude mcp add playwright -s user -- npx -y @playwright/mcp@latest
 ```
-**Tools:**
-- `web_search_exa` - Semantic web search
-- `get_code_context_exa` - Find code examples, GitHub repos, API docs
+**Used by:** `/browser`, designer agent, UI verification
+**Purpose:** Screenshots, form filling, E2E testing
 
-### Jina AI - Web Reader + SERP (FREE TIER)
+### Memory - Knowledge Graph
 ```bash
-# HTTP transport
-claude mcp add jina -s user --transport http https://mcp.jina.ai/v1
+# Already in .mcp.json, or add manually:
+claude mcp add memory -s user -- npx -y @modelcontextprotocol/server-memory
 ```
-**Tools:**
-- `read_url` - Fetch any URL as clean markdown
-- `parallel_read_url` - Batch fetch multiple URLs
-- `web_search` - SERP results for reasoning
-
-### Brave Search - Privacy-Focused Search
-```bash
-claude mcp add brave-search -s user -- npx -y @anthropic/mcp-server-brave-search
-# Requires BRAVE_API_KEY env var
-```
-Use for: General web search, privacy-focused
-
-### Perplexity - AI Research (REQUIRES API KEY)
-```bash
-claude mcp add perplexity -s user -- npx -y @anthropic/mcp-server-perplexity
-# Requires PERPLEXITY_API_KEY env var
-```
-Use for: Deep research, factual queries with citations
-
-### Firecrawl - Web Scraping (500 FREE CREDITS)
-```bash
-claude mcp add firecrawl -s user -- npx -y firecrawl-mcp
-# Requires FIRECRAWL_API_KEY env var
-```
-**Tools:**
-- Crawl entire sites
-- Extract structured data
-- Handle JS-heavy pages
+**Used by:** `/memory` command, cross-session persistence
+**Purpose:** Entities, relations, facts that persist
 
 ---
 
-## TIER 3: Browser Automation
+## TIER 2: Search & Research (Freemium)
 
-### Playwright - Browser Testing (RECOMMENDED)
-```bash
-claude mcp add playwright -s user -- npx -y @anthropic/mcp-server-playwright
-```
-Use for: Interactive testing, form filling, screenshots
-**Tip:** Say "use playwright mcp" explicitly first time
+Work without API keys but enhanced with them.
 
-### Puppeteer - Alternative Browser Control
+### Exa - AI-Powered Search
 ```bash
-claude mcp add puppeteer -s user -- npx -y @modelcontextprotocol/server-puppeteer
+claude mcp add exa -s user -- npx -y exa-mcp-server
+# Optional: export EXA_API_KEY=your-key
 ```
-Use for: Web scraping, automation scripts
+**Tools:**
+- `web_search_exa` - Semantic search with AI understanding
+- `get_code_context_exa` - Find code examples, GitHub repos
+
+### Jina AI - Web Reader
+```bash
+claude mcp add jina -s user -- npx -y jina-mcp
+# Optional: export JINA_API_KEY=your-key
+```
+**Tools:**
+- `read_url` - Any URL to clean markdown
+- `parallel_read_url` - Batch fetch
+- `web_search` - SERP results
+
+### mgrep - Semantic Code Search
+```bash
+# Install mgrep CLI
+cargo install mgrep
+# Or via npm
+npm install -g mgrep-cli
+
+# Usage
+mgrep "Where is auth middleware?"
+mgrep --web "How to implement OAuth2"
+```
+**Benefit:** 2x fewer tokens than grep workflows
 
 ---
 
-## TIER 4: Development Tools
+## TIER 3: Development Tools (Requires Config)
 
 ### GitHub - PR/Issue Management
 ```bash
 claude mcp add github -s user -- npx -y @modelcontextprotocol/server-github
-# Requires GITHUB_TOKEN env var
+```
+**Requires:** `GITHUB_TOKEN` environment variable
+```bash
+export GITHUB_TOKEN=ghp_xxxxxxxxxxxx
 ```
 
-### PostgreSQL - Database Queries
+### PostgreSQL - Database Access
 ```bash
-claude mcp add postgres -s user -- npx -y @modelcontextprotocol/server-postgres "postgresql://user:pass@localhost/db"
+claude mcp add postgres -s user -- npx -y @modelcontextprotocol/server-postgres
+```
+**Requires:** `DATABASE_URL` environment variable
+```bash
+export DATABASE_URL=postgresql://user:pass@localhost/db
 ```
 
-### Filesystem - Local File Operations
+### Filesystem - Enhanced File Operations
 ```bash
-claude mcp add filesystem -s user -- npx -y @modelcontextprotocol/server-filesystem /path/to/project
+claude mcp add filesystem -s user -- npx -y @modelcontextprotocol/server-filesystem .
 ```
+**Provides:** Advanced file operations beyond built-in tools
+
+### Neon - Serverless Postgres
+```bash
+claude mcp add neon -s user -- npx -y @neondatabase/mcp-server-neon
+```
+**Requires:** `NEON_API_KEY` environment variable
 
 ---
 
-## TIER 5: Full Toolkit Plugin
+## TIER 4: Extended Plugins
 
-### compound-engineering - 27 Agents, 20 Commands
+### Compound Engineering - 27 Agents, 20 Commands
 ```bash
-npx claude-plugins install @EveryInc/every-marketplace/compound-engineering
+/plugin marketplace add https://github.com/EveryInc/compound-engineering-plugin
+/plugin install compound-engineering
 ```
-Includes: Code review, testing, documentation, refactoring agents
+**Adds:**
+- 14 review agents (security-sentinel, performance-oracle, etc.)
+- 4 research agents
+- 5 workflow agents
+- `/workflows:plan`, `/workflows:work`, `/workflows:review`, `/workflows:compound`
+
+### Claude-Mem - Session Memory
+```bash
+/plugin marketplace add thedotmack/claude-mem
+/plugin install claude-mem
+```
+**Adds:** Automatic session memory with AI compression
+**Note:** The unified template uses opt-in memory instead; use this if you prefer auto-capture
+
+### Ralph - Autonomous Loops
+```bash
+# Clone and use directly
+git clone https://github.com/snarktank/ralph.git
+```
+**Adds:** Long-running autonomous feature implementation
+**Note:** The unified template includes `/sprint` command which implements this pattern
 
 ---
 
-## Omnisearch - All-in-One Alternative
-If you want ONE server for multiple search providers:
-```bash
-# Combines: Tavily, Brave, Kagi, Perplexity, Jina
-claude mcp add omnisearch -s user -- npx -y mcp-omnisearch
-# Set API keys for providers you want to use
+## Recommended Setups
+
+### Minimal (Default Template)
 ```
-
----
-
-## Recommended Setup by Use Case
+sequential-thinking + context7 + playwright + memory
+```
+All in `.mcp.json`, works out of box.
 
 ### Web Developer
 ```
-sequential-thinking + context7 + playwright + exa
+Default + exa + jina + github
 ```
+Add search and GitHub integration.
 
-### Backend Developer  
+### Backend Developer
 ```
-sequential-thinking + context7 + postgres + github
+Default + postgres + github + filesystem
 ```
-
-### Researcher
-```
-sequential-thinking + perplexity + jina + firecrawl
-```
+Database and GitHub access.
 
 ### Full Stack (Maximum Power)
 ```
-mgrep + sequential-thinking + context7 + exa + jina + playwright
+Default + exa + jina + github + postgres + compound-engineering
+```
+Everything for complex projects.
+
+### AI/ML Engineer
+```
+Default + exa + jina
+```
+Research-focused with documentation access.
+
+---
+
+## Configuration Reference
+
+### Environment Variables
+
+| Variable | Server | Purpose |
+|----------|--------|---------|
+| `EXA_API_KEY` | exa | Enhanced search |
+| `JINA_API_KEY` | jina | More URL reads |
+| `GITHUB_TOKEN` | github | GitHub API access |
+| `DATABASE_URL` | postgres | Database connection |
+| `NEON_API_KEY` | neon | Neon database |
+| `BRAVE_API_KEY` | brave-search | Brave search |
+| `PERPLEXITY_API_KEY` | perplexity | Perplexity AI |
+| `FIRECRAWL_API_KEY` | firecrawl | Web scraping |
+
+### Add to settings.local.json
+
+```json
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "env": {
+        "DATABASE_URL": "${DATABASE_URL}"
+      }
+    }
+  }
+}
 ```
 
 ---
 
-## Token Budget Tips
+## Token Budget Reference
 
-| MCP Server | Approx Token Cost |
-|------------|-------------------|
+| Server | Approx Overhead |
+|--------|-----------------|
 | sequential-thinking | ~500 tokens |
 | context7 | ~300 tokens |
+| playwright | ~800 tokens |
+| memory | ~400 tokens |
 | exa | ~400 tokens |
 | jina | ~350 tokens |
-| playwright | ~800 tokens |
-| filesystem | ~400 tokens |
+| github | ~600 tokens |
+| postgres | ~500 tokens |
 
-**Rules:**
-- Disable unused MCPs (`/mcp` to manage)
-- Each MCP adds to system prompt overhead
-- Use mgrep instead of built-in grep (2x savings)
-- Use /compact to summarize context
-- Use /clear between unrelated tasks
+**Tips:**
+- Disable unused MCPs with `/mcp` command
+- Each server adds to system prompt overhead
+- Use `/compact` to summarize context
+- Use `/clear` between unrelated tasks
+
+---
+
+## Troubleshooting
+
+### Server not loading
+```bash
+# Check if npx works
+npx -y @modelcontextprotocol/server-sequential-thinking --version
+
+# Verify in Claude Code
+/mcp
+```
+
+### API key not working
+```bash
+# Verify environment variable is set
+echo $GITHUB_TOKEN
+
+# Add to shell profile
+echo 'export GITHUB_TOKEN=xxx' >> ~/.zshrc
+source ~/.zshrc
+```
+
+### Too many servers (slow startup)
+Remove servers you don't use from `.mcp.json` or `settings.local.json`.
+
+---
+
+## Links
+
+- [MCP Server List](https://github.com/modelcontextprotocol/servers) - Official servers
+- [Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code) - Official docs
+- [Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin) - Extended plugin
+- [Claude-Mem](https://github.com/thedotmack/claude-mem) - Session memory
+- [Ralph](https://github.com/snarktank/ralph) - Autonomous loops

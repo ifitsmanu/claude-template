@@ -1,4 +1,6 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "description": "Base Claude Code settings - safe read-only defaults. Override in settings.local.json for dev permissions.",
   "permissions": {
     "allow": [
       "Read",
@@ -8,11 +10,23 @@
       "WebFetch",
       "WebSearch",
       "TodoWrite",
+      "EnterPlanMode",
+      "ExitPlanMode",
+      "Skill",
+      "mcp__sequential-thinking__*",
+      "mcp__context7__*",
+      "mcp__memory__*",
       "Bash(git status)",
+      "Bash(git status:*)",
+      "Bash(git diff)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
+      "Bash(git branch)",
       "Bash(git branch:*)",
       "Bash(git show:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(git remote:*)",
+      "Bash(ls)",
       "Bash(ls:*)",
       "Bash(cat:*)",
       "Bash(head:*)",
@@ -22,25 +36,58 @@
       "Bash(echo:*)",
       "Bash(pwd)",
       "Bash(which:*)",
-      "Bash(env)"
+      "Bash(env)",
+      "Bash(tree:*)",
+      "Bash(file:*)",
+      "Bash(stat:*)",
+      "Bash(du:*)",
+      "Bash(df:*)",
+      "Bash(grep:*)",
+      "Bash(awk:*)",
+      "Bash(sed:*)",
+      "Bash(sort:*)",
+      "Bash(uniq:*)",
+      "Bash(cut:*)",
+      "Bash(jq:*)",
+      "Bash(yq:*)"
     ],
     "deny": [
       "Read(.env)",
+      "Read(.env.*)",
       "Read(**/.env)",
       "Read(**/.env.*)",
       "Read(**/secrets.json)",
+      "Read(**/secrets.yaml)",
       "Read(**/secret.json)",
+      "Read(**/credentials.json)",
       "Read(**/*.pem)",
       "Read(**/*_rsa)",
       "Read(**/*.key)",
+      "Read(**/*.p12)",
+      "Read(**/*.pfx)",
+      "Read(**/id_rsa)",
+      "Read(**/id_ed25519)",
       "Bash(rm -rf /)",
       "Bash(rm -rf /*)",
+      "Bash(rm -rf ~)",
+      "Bash(rm -rf ~/*)",
+      "Bash(git push --force)",
       "Bash(git push --force:*)",
+      "Bash(git push -f)",
       "Bash(git push -f:*)",
+      "Bash(git reset --hard origin/*)",
       "Bash(sudo rm:*)",
+      "Bash(sudo chmod:*)",
+      "Bash(sudo chown:*)",
       "Bash(chmod 777:*)",
-      "Bash(curl:* | sh)",
-      "Bash(wget:* | sh)"
+      "Bash(chmod -R 777:*)",
+      "Bash(curl * | sh)",
+      "Bash(curl * | bash)",
+      "Bash(wget * | sh)",
+      "Bash(wget * | bash)",
+      "Bash(mkfs:*)",
+      "Bash(dd if=/dev/zero:*)",
+      "Bash(> /dev/sda)"
     ]
   },
   "hooks": {
@@ -50,7 +97,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/format-on-save.sh"
+            "command": ".claude/hooks/post-save.sh"
           }
         ]
       }
@@ -58,6 +105,32 @@
   },
   "env": {
     "PYTHONDONTWRITEBYTECODE": "1",
-    "PYTHONUNBUFFERED": "1"
+    "PYTHONUNBUFFERED": "1",
+    "NODE_ENV": "development",
+    "FORCE_COLOR": "1"
+  },
+  "agents": {
+    "core": [
+      ".claude/agents/core/builder.yml",
+      ".claude/agents/core/reviewer.yml",
+      ".claude/agents/core/debugger.yml",
+      ".claude/agents/core/tester.yml",
+      ".claude/agents/core/architect.yml"
+    ],
+    "specialists": [
+      ".claude/agents/specialists/security.yml",
+      ".claude/agents/specialists/performance.yml",
+      ".claude/agents/specialists/database.yml",
+      ".claude/agents/specialists/frontend.yml",
+      ".claude/agents/specialists/backend.yml",
+      ".claude/agents/specialists/ai-engineer.yml",
+      ".claude/agents/specialists/designer.yml"
+    ]
+  },
+  "memory": {
+    "patterns": ".claude/memory/patterns.md",
+    "decisions": ".claude/memory/decisions.md",
+    "learnings": ".claude/memory/learnings.md",
+    "retention_days": 30
   }
 }

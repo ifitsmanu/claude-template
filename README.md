@@ -1,160 +1,261 @@
-# Claude Code Template
+# Claude Code Unified Template
 
 [![CI](https://github.com/ifitsmanu/claude-template/actions/workflows/ci.yml/badge.svg)](https://github.com/ifitsmanu/claude-template/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Production-ready Claude Code setup. 14 commands, 5 agents, 6 MCP servers. Based on Boris Cherny's workflow.
+Production-ready Claude Code template synthesizing best practices from [claude-mem](https://github.com/thedotmack/claude-mem), [compound-engineering](https://github.com/EveryInc/compound-engineering-plugin), [ralph](https://github.com/snarktank/ralph), and [sequential-thinking](https://github.com/modelcontextprotocol/servers).
+
+**Philosophy: Complexity is opt-in, not default.**
 
 ## Quick Start
 
-**Option 1: GitHub Template** (Recommended)
-Click **"Use this template"** → Clone your new repo → Run `claude`
-
-**Option 2: Clone**
 ```bash
+# Clone template
 git clone https://github.com/ifitsmanu/claude-template.git my-project
-cd my-project
-rm -rf .git && git init
-```
+cd my-project && rm -rf .git && git init
 
-**Option 3: Copy to existing project**
-```bash
+# Or copy to existing project
 cp -r claude-template/.claude your-project/
 cp claude-template/CLAUDE.md your-project/
-cp -r claude-template/agent_docs your-project/
+cp claude-template/.mcp.json your-project/
 ```
 
-Then run `claude` and say: *"Help me set up CLAUDE.md for this project"*
+Then run `claude` and start working:
+
+```bash
+/fix "button not responding"     # Quick bug fix
+/plan "add OAuth authentication" # Plan a feature
+/ship                            # Commit + push + PR
+```
 
 ## What You Get
 
-### Commands (type `/command` in Claude Code)
+### 10 Commands (5 Tiers)
 
-| Command | Purpose |
-|---------|---------|
-| `/plan` | Plan features with extended thinking |
-| `/fix` | Debug with root cause analysis |
-| `/test` | Analyze and improve test coverage |
-| `/commit-push-pr` | Full git workflow in one command |
-| `/review` | Security + quality code review |
-| `/think` | Deep analysis (32k thinking tokens) |
-| `/parallel` | Multi-agent parallel implementation |
-| `/security` | Security vulnerability scan |
-| `/refactor` | Code refactoring |
-| `/explore` | Map unfamiliar codebase |
-| `/research` | Web research |
-| `/browser` | Browser testing with Playwright |
-| `/search` | Semantic code search |
-| `/commit` | Simple commit |
+| Tier | Commands | Use Case |
+|------|----------|----------|
+| **Quick** | `/fix`, `/commit`, `/ship` | Zero overhead, just do it |
+| **Shallow** | `/review`, `/refactor` | Light analysis |
+| **Deep** | `/think`, `/plan`, `/debug` | Sequential thinking (32k tokens) |
+| **Parallel** | `/build`, `/parallel` | Multi-agent implementation |
+| **Workflow** | `/sprint`, `/memory` | Long-running, persistent |
 
-### Agents (specialized Claude instances)
+### 12 Agents (Core + Specialists)
 
-| Agent | Model | Use case |
-|-------|-------|----------|
-| `code-reviewer` | Sonnet | Post-implementation security/quality review |
-| `code-simplifier` | Sonnet | Remove unnecessary complexity |
-| `test-writer` | Haiku | Generate meaningful tests |
-| `explorer` | Haiku | Map codebase structure |
-| `verify-app` | Haiku | Pre-commit verification |
+| Core Agents | Model | Responsibility |
+|-------------|-------|----------------|
+| builder | haiku | Implement code |
+| reviewer | sonnet | Judge quality |
+| debugger | haiku | Find bugs |
+| tester | haiku | Write tests |
+| architect | sonnet | Design systems |
 
-### MCP Servers (all free)
+| Specialist Agents | Model | Triggers |
+|-------------------|-------|----------|
+| security | sonnet | `--security`, auth, OWASP |
+| performance | sonnet | `--performance`, optimization |
+| database | sonnet | migrations, schema |
+| frontend | haiku | UI, components |
+| backend | haiku | APIs, services |
+| ai-engineer | sonnet | LLM, RAG, embeddings |
+| designer | sonnet | UX, design system |
 
-| Server | What it does |
-|--------|-------------|
-| `sequential-thinking` | Step-by-step reasoning for complex problems |
-| `context7` | Live documentation for any library |
-| `exa` | AI-powered semantic web search |
-| `jina` | URL to markdown converter |
-| `playwright` | Browser automation |
-| `filesystem` | Enhanced file operations |
+### 6 MCP Servers (All Free)
 
-### Hooks (automatic actions)
+| Server | Purpose |
+|--------|---------|
+| sequential-thinking | Deep reasoning for `/think`, `/plan` |
+| context7 | Real-time library documentation |
+| playwright | Browser automation |
+| memory | Knowledge graph persistence |
+| exa | AI-powered search (freemium) |
+| jina | Web content reader (freemium) |
 
-- **format-on-save** - Auto-format with Prettier/Ruff/gofmt/rustfmt
-- **pre-commit** - Run tests + scan for secrets
+### Selective Memory System
+
+**No auto-capture. No pollution.**
+
+```bash
+/memory save patterns "API routes follow /api/v1/[resource]"
+/memory save decisions "PostgreSQL for ACID transactions"
+/memory save learnings "Pool exhaustion = random 500s at peaks"
+/memory search "authentication"
+```
+
+### Sprint Mode (Ralph Pattern)
+
+Autonomous loops for multi-story features:
+
+```bash
+/sprint init                          # Create PRD template
+# Edit .claude/prd/current.json
+/sprint .claude/prd/current.json      # Run autonomous loop
+```
+
+Fresh context per iteration. File-based state. Quality gates enforced.
+
+## Command Reference
+
+### `/fix` - Quick Bug Fix
+```bash
+/fix "login button not responding on mobile"
+```
+Zero overhead. Debugger agent. Direct fix.
+
+### `/think` - Deep Analysis
+```bash
+/think "how should we migrate to microservices?"
+```
+32k token budget. Sequential thinking. Branch and revise.
+
+### `/plan` - Feature Planning
+```bash
+/plan "add OAuth2 with Google and GitHub"
+```
+Architect agent. Creates implementation plan. Requires approval.
+
+### `/build` - Parallel Implementation
+```bash
+/build "user profile with avatar" --all
+```
+Frontend + backend + database + tester in parallel.
+
+### `/review` - Code Review
+```bash
+/review src/auth/ --security --performance
+```
+Reviewer agent + optional specialists. Produces verdict.
+
+### `/sprint` - Autonomous Loop
+```bash
+/sprint .claude/prd/feature.json
+```
+Implements all stories until complete. Fresh context each iteration.
+
+## Project Structure
+
+```
+.claude/
+├── agents/
+│   ├── core/           # builder, reviewer, debugger, tester, architect
+│   └── specialists/    # security, performance, database, frontend, backend, ai-engineer, designer
+├── commands/
+│   ├── quick/          # fix, commit, ship
+│   ├── shallow/        # review, refactor
+│   ├── deep/           # think, plan, debug
+│   ├── parallel/       # build, parallel
+│   └── workflow/       # sprint, memory
+├── memory/             # patterns.md, decisions.md, learnings.md
+├── prd/                # Sprint PRD templates
+├── hooks/              # pre-commit.sh, post-save.sh
+├── settings.json       # Safe defaults (commit this)
+└── settings.local.json # Dev permissions (gitignored)
+```
 
 ## Configuration
 
-### Two config files, different purposes:
+### Two config files:
 
-| File | Shared? | Contains |
-|------|---------|----------|
-| `.mcp.json` | Yes (commit it) | Team MCP servers |
-| `.claude/settings.local.json` | No (gitignored) | Personal API keys, permissions |
+| File | Git | Purpose |
+|------|-----|---------|
+| `.mcp.json` | Commit | Team MCP servers |
+| `settings.json` | Commit | Safe base permissions |
+| `settings.local.json` | Gitignored | Dev permissions, API keys |
 
-Setup:
+### Setup local config:
 ```bash
 cp .claude/settings.local.json.example .claude/settings.local.json
+# Edit with your API keys if desired
 ```
 
-### Optional API keys (for premium features):
+### Optional API keys:
 ```bash
-export EXA_API_KEY=your-key      # Better search
-export JINA_API_KEY=your-key     # More URL reads
+export EXA_API_KEY=your-key        # Better search
+export JINA_API_KEY=your-key       # More URL reads
+export GITHUB_TOKEN=your-token     # GitHub API access
+export DATABASE_URL=postgres://... # Database access
 ```
 
-## The Workflow
+## Quality Gates
 
-Boris Cherny's development loop:
+### Pre-Commit (Automatic)
+- ✓ Lint passes
+- ✓ Tests pass
+- ✓ Type check passes
+- ✓ No secrets detected
 
-```
-/plan → code → /test → code-simplifier → /commit-push-pr
-```
-
-Repeat. Ship fast.
+### Agent Status
+- `SUCCESS` - Task completed
+- `BLOCKED` - Needs human decision
+- `FAILED` - Couldn't complete
 
 ## Customization
 
-### Add a command
-Create `.claude/commands/deploy.md`:
+### Add a Command
 ```markdown
-# Deploy
+# .claude/commands/quick/deploy.md
+# /deploy - Deploy to environment
 
-Deploy to: $ARGUMENTS
+## When to Use
+Deploying to staging or production
 
-## Steps
+## Process
 1. Run tests
 2. Build
-3. Deploy to specified environment
+3. Deploy to $ARGUMENTS
 ```
 
-### Add an agent
-Create `.claude/agents/doc-writer.yml`:
+### Add an Agent
 ```yaml
-name: doc-writer
-description: Write documentation
-model: haiku
-tools: [Read, Edit, Glob]
+# .claude/agents/specialists/devops.yml
+name: devops
+model: sonnet
+tools: [Read, Bash, Grep]
 prompt: |
-  You write clear, concise documentation.
-  Focus on usage examples over theory.
+  You are the DEVOPS agent...
 ```
 
-### Configure CLAUDE.md
-Fill in your project specifics:
-- Tech stack
-- Build commands
-- Coding conventions
-- Forbidden actions
-
-## Recommended Plugins
-
+### Add Memory
 ```bash
-# Autonomous long-running tasks
-/plugin install ralph-wiggum
-
-# 24 more agents, 13 more commands
-/plugin marketplace add https://github.com/kieranklaassen/compound-engineering-plugin
-/plugin install compound-engineering
+/memory save patterns "Services use repository pattern"
+/memory save decisions "Chose Redis for session store: need distributed cache"
 ```
+
+## Design Principles
+
+1. **Zero overhead by default** - Quick commands work instantly
+2. **Opt-in complexity** - Deep thinking only when needed
+3. **File-based state** - Git + markdown, no external DBs
+4. **Explicit failures** - Agents report BLOCKED/FAILED, never silent
+5. **Parallel when possible** - Independent tasks run simultaneously
+
+## What This Template Avoids
+
+Patterns we explicitly rejected:
+
+| Anti-Pattern | Why Rejected |
+|--------------|--------------|
+| Auto-capture memory | Creates noise, pollutes context |
+| 27+ agents | Most overlap, 12 is sufficient |
+| Always-on planning | Kills velocity for simple tasks |
+| External databases | Adds failure points |
+| Silent failures | Masks problems |
+
+## Sources
+
+This template synthesizes:
+
+- **[claude-mem](https://github.com/thedotmack/claude-mem)** → 3-layer retrieval pattern
+- **[compound-engineering](https://github.com/EveryInc/compound-engineering-plugin)** → Parallel agents, specialized reviewers
+- **[ralph](https://github.com/snarktank/ralph)** → File-based state, iteration loops, AGENTS.md learning
+- **[sequential-thinking](https://github.com/modelcontextprotocol/servers)** → Deep analysis for hard problems
 
 ## Links
 
-- [PLUGINS.md](PLUGINS.md) - Full MCP installation guide
-- [CHANGELOG.md](CHANGELOG.md) - Version history
+- [CLAUDE.md](CLAUDE.md) - Full command reference
+- [PLUGINS.md](PLUGINS.md) - MCP installation guide
 - [CONTRIBUTING.md](CONTRIBUTING.md) - How to contribute
 - [Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code) - Official docs
-- [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) - Community resources
 
 ## License
 

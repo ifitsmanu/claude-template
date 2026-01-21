@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "Feature Name",
+  "branchName": "feature/feature-name",
+  "description": "Brief description of what this feature does and why",
+  "owner": "developer-name",
+  "created": "YYYY-MM-DD",
+  "status": "draft",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "First user story",
+      "description": "As a [user type], I want [goal] so that [benefit]",
+      "acceptanceCriteria": [
+        "Given [context], when [action], then [result]",
+        "Given [context], when [action], then [result]"
+      ],
+      "priority": 1,
+      "estimatedComplexity": "small",
+      "dependencies": [],
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Second user story",
+      "description": "As a [user type], I want [goal] so that [benefit]",
+      "acceptanceCriteria": [
+        "Given [context], when [action], then [result]"
+      ],
+      "priority": 2,
+      "estimatedComplexity": "medium",
+      "dependencies": [
+        "US-001"
+      ],
+      "passes": false,
+      "notes": ""
+    }
+  ],
+  "technicalNotes": {
+    "architecture": "Brief architecture notes",
+    "dependencies": [
+      "Any new dependencies needed"
+    ],
+    "migrations": "Database migration notes if any",
+    "risks": [
+      "Potential risks to watch for"
+    ]
+  },
+  "definition_of_done": [
+    "All user stories pass acceptance criteria",
+    "Tests written and passing",
+    "Code reviewed",
+    "Documentation updated",
+    "No security vulnerabilities"
+  ]
+}
